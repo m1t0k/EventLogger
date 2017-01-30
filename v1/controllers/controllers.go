@@ -47,7 +47,7 @@ func (ec EventController) insertEvent(context *gin.Context) {
 /*
 Start EventController controller
 */
-func (ec EventController) Run(router *gin.Engine) {
+func (ec EventController) Register(router *gin.Engine) {
 	router.GET("/events", ec.getEventList)
 	router.GET("/events/:id", ec.getEvent)
 	router.POST("/events", ec.insertEvent)

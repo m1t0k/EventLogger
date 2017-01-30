@@ -13,9 +13,11 @@ func main() {
 		log.Fatalf("Can't start http server:%s.\n", err)
 	}
 
-	router := gin.Default()
+	router := gin.New()
+	router.Use(gin.Recovery())
+
 	evCtrl := Controllers.EventController{}
-	evCtrl.Run(router)
+	evCtrl.Register(router)
 
 	router.Run(":8999")
 }

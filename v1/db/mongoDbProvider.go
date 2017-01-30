@@ -39,11 +39,12 @@ func (edp EventDbProvider) DbInsertEvent(event EventTypes.Event) bool {
 */
 func (edp EventDbProvider) DbGetEvent(id string) (EventTypes.Event, error) {
 	session, errConn := dbConnect()
-	defer session.Close()
-	var event EventTypes.Event
 	if errConn != nil {
-		return event, errConn
+		return EventTypes.Event{}, errConn
 	}
+	defer session.Close()
+
+	var event EventTypes.Event
 	var eventsCollection = getEventsCollection(session)
 	err := eventsCollection.FindId(bson.ObjectIdHex(id)).One(&event)
 	return event, err
@@ -54,10 +55,11 @@ Delete event id
 */
 func (edp EventDbProvider) DbDeleteEvent(id string) (bool, error) {
 	session, errConn := dbConnect()
-	defer session.Close()
 	if errConn != nil {
 		return false, errConn
 	}
+	defer session.Close()
+
 	var eventsCollection = getEventsCollection(session)
 	err := eventsCollection.RemoveId(bson.ObjectIdHex(id))
 	return err == nil, err
@@ -68,10 +70,11 @@ Get full event list
 */
 func (edp EventDbProvider) DbGetEventList() ([]EventTypes.Event, error) {
 	session, errConn := dbConnect()
-	defer session.Close()
 	if errConn != nil {
 		return nil, errConn
 	}
+	defer session.Close()
+
 	var events []EventTypes.Event
 	var eventsCollection = getEventsCollection(session)
 	err := eventsCollection.Find(bson.M{}).All(&events)
