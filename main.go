@@ -15,9 +15,9 @@ func main() {
 
 	router := gin.New()
 	router.Use(gin.Recovery())
-
+	v1 := router.Group("/v1")
 	evCtrl := Controllers.EventController{}
-	evCtrl.Register(router)
+	evCtrl.Register(v1)
 
 	router.Run(":8999")
 }
