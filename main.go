@@ -1,8 +1,8 @@
 package main
 
 import (
-	AppConfig "../eventservice/v1/config/"
-	Controllers "../eventservice/v1/controllers/"
+	AppConfig "../eventLogger/v1/config/"
+	Controllers "../eventLogger/v1/controllers/"
 	"gopkg.in/gin-gonic/gin.v1"
 	"log"
 )

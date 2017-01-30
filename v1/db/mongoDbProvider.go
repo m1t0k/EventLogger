@@ -25,6 +25,7 @@ insert event into MongoDB database
 */
 func (edp EventDbProvider) DbInsertEvent(event EventTypes.Event) bool {
 	session, errConn := dbConnect()
+	defer session.Close()
 	if errConn != nil {
 		return false
 	}
@@ -38,14 +39,13 @@ func (edp EventDbProvider) DbInsertEvent(event EventTypes.Event) bool {
 */
 func (edp EventDbProvider) DbGetEvent(id string) (EventTypes.Event, error) {
 	session, errConn := dbConnect()
+	defer session.Close()
 	var event EventTypes.Event
 	if errConn != nil {
 		return event, errConn
 	}
-
 	var eventsCollection = getEventsCollection(session)
 	err := eventsCollection.FindId(bson.ObjectIdHex(id)).One(&event)
-
 	return event, err
 }
 
@@ -54,6 +54,7 @@ Delete event id
 */
 func (edp EventDbProvider) DbDeleteEvent(id string) (bool, error) {
 	session, errConn := dbConnect()
+	defer session.Close()
 	if errConn != nil {
 		return false, errConn
 	}
@@ -67,6 +68,7 @@ Get full event list
 */
 func (edp EventDbProvider) DbGetEventList() ([]EventTypes.Event, error) {
 	session, errConn := dbConnect()
+	defer session.Close()
 	if errConn != nil {
 		return nil, errConn
 	}
