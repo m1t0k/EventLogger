@@ -1,10 +1,11 @@
 package main
 
 import (
+	"log"
+
 	AppConfig "../eventLogger/v1/config/"
 	Controllers "../eventLogger/v1/controllers/"
 	"gopkg.in/gin-gonic/gin.v1"
-	"log"
 )
 
 func main() {
@@ -19,5 +20,8 @@ func main() {
 	evCtrl := Controllers.EventController{}
 	evCtrl.Register(v1)
 
-	router.Run(":8999")
+	err = router.Run(":8999")
+	if err != nil {
+		log.Fatalf("Can't start http server:%s.\n", err)
+	}
 }
